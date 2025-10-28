@@ -74,7 +74,7 @@ function Footer() {
 
 // --- Main App Component ---
 // This brings all the other components together
-export default function Targetgame() {
+export default function Analytics() {
   return (
     <div className="min-h-screen bg-gray-50 font-sans flex flex-col">
       <Header />
