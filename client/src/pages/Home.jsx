@@ -23,15 +23,15 @@ export default function Home() {
 
   // 🖼️ Update with your final grid image filenames in /public
   const gridItems = [
-    { imgSrc: '/commonNumber.png' },
-    { imgSrc: '/socialNumber.png' },
-    { imgSrc: '/dreamNumber.png' },
-    { imgSrc: '/analysis.png' },
+    { imgSrc: '/commonNumber.png', to:'/common-numbers' },
+    { imgSrc: '/socialNumber.png', to:'/social-numbers' },
+    { imgSrc: '/dreamNumber.png', to:'/dream-numbers' },
+    { imgSrc: '/analysis.png', to:'/analytics' },
     { imgSrc: '/targetGame.png' , to:'/targetgame'},
-    { imgSrc: '/previousResults.png' },
-    { imgSrc: '/teerCalendar.png' },
-    { imgSrc: '/reputedCountries.png' },
-    { imgSrc: '/onlineShopping.png' },
+    { imgSrc: '/previousResults.png', to:'/previous-results' },
+    { imgSrc: '/teerCalendar.png', },
+    { imgSrc: '/reputedCountries.png', to:'/reputedcounter' },
+    { imgSrc: '/onlineShopping.png',  },
   ];
 
   return (
