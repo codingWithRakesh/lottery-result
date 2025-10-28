@@ -19,6 +19,11 @@ app.get("/", (req, res) => {
     res.json({ message: "working" })
 })
 
+//routes imports
+import resultRouter from "./routes/result.routes.js"
 
 
+
+//routes declaration
+app.use("/api/v1/result",resultRouter)
 export { app }

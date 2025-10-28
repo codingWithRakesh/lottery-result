@@ -6,6 +6,7 @@ const resultSchema = new mongoose.Schema(
       type: Date,
       required: true,
       unique: true, 
+      index:true
     },
     city:{
         type:String,
@@ -28,7 +29,7 @@ const resultSchema = new mongoose.Schema(
     },
     results: [
       {
-        type: {
+        timeslot: {
           type: String,
           enum: {
             values: ["FR", "SR"],
@@ -36,7 +37,7 @@ const resultSchema = new mongoose.Schema(
           },
           required: true,
         },
-        numbers: String,
+        number: String,
         time: String,
       },
     ],
