@@ -22,9 +22,10 @@ app.get("/", (req, res) => {
 //routes imports
 import resultRouter from "./routes/result.routes.js"
 import commonRouter from "./routes/common.routes.js"
-
+import adminRouter from "./routes/user.routes.js"
 
 //routes declaration
 app.use("/api/v1/result",resultRouter)
 app.use("/api/v1/common",commonRouter)
+app.use("/api/v1/admin",adminRouter)
 export { app }

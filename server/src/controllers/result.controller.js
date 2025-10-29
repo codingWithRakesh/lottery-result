@@ -6,7 +6,6 @@ import { Result } from "../models/result.models.js";
 const updateFRresult = asyncHandler(async (req, res) => {
   const { date, city, result } = req.body;
 
- 
   const fields = { date, city, result };
   Object.entries(fields).forEach(([key, value]) => {
     if (!value) {
@@ -14,16 +13,20 @@ const updateFRresult = asyncHandler(async (req, res) => {
     }
   });
 
-  const normalizedDate = new Date(date);
-  if (isNaN(normalizedDate)) {
+  const inputDate = new Date(date);
+  if (isNaN(inputDate)) {
     throw new ApiError(400, "Invalid date format");
   }
-  normalizedDate.setHours(0, 0, 0, 0);
 
-const day = normalizedDate.getUTCDate();
-const month = normalizedDate.getUTCMonth() + 1;
-const year = normalizedDate.getUTCFullYear();
+  const normalizedDate = new Date(Date.UTC(
+    inputDate.getUTCFullYear(),
+    inputDate.getUTCMonth(),
+    inputDate.getUTCDate()
+  ));
 
+  const day = inputDate.getUTCDate();
+  const month = inputDate.getUTCMonth() + 1;
+  const year = inputDate.getUTCFullYear();
 
   let createdFRresult = await Result.findOneAndUpdate(
     { date: normalizedDate, "results.timeslot": "FR" },
@@ -36,7 +39,6 @@ const year = normalizedDate.getUTCFullYear();
     { new: true }
   );
 
-  
   if (!createdFRresult) {
     createdFRresult = await Result.findOneAndUpdate(
       { date: normalizedDate },
@@ -52,8 +54,11 @@ const year = normalizedDate.getUTCFullYear();
 
   return res
     .status(201)
-    .json(new ApiResponse(201, createdFRresult, "FR result updated successfully"));
+    .json(
+      new ApiResponse(201, createdFRresult, "FR result updated successfully")
+    );
 });
+
 
 const updateSRresult = asyncHandler(async (req, res) => {
   const { date, city, result } = req.body;
@@ -65,16 +70,20 @@ const updateSRresult = asyncHandler(async (req, res) => {
     }
   });
 
- 
-  const normalizedDate = new Date(date);
-  if (isNaN(normalizedDate)) {
+  const inputDate = new Date(date);
+  if (isNaN(inputDate)) {
     throw new ApiError(400, "Invalid date format");
   }
-  normalizedDate.setHours(0, 0, 0, 0);
 
-  const day = normalizedDate.getUTCDate();
-  const month = normalizedDate.getUTCMonth() + 1;
-  const year = normalizedDate.getUTCFullYear();
+  const normalizedDate = new Date(Date.UTC(
+    inputDate.getUTCFullYear(),
+    inputDate.getUTCMonth(),
+    inputDate.getUTCDate()
+  ));
+
+  const day = inputDate.getUTCDate();
+  const month = inputDate.getUTCMonth() + 1;
+  const year = inputDate.getUTCFullYear();
 
   let updatedSRresult = await Result.findOneAndUpdate(
     { date: normalizedDate, "results.timeslot": "SR" },
@@ -106,6 +115,7 @@ const updateSRresult = asyncHandler(async (req, res) => {
       new ApiResponse(201, updatedSRresult, "SR result updated successfully")
     );
 });
+
 
 
 const getTodaysResult = asyncHandler(async (req, res) => {

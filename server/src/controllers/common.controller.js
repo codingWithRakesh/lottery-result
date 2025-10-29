@@ -6,7 +6,6 @@ import { commonNumber } from "../models/common.models.js";
 const updateCommonNumbers = asyncHandler(async (req, res) => {
   const { date, FR, SR } = req.body;
 
-  // 🧩 Validate input
   if (!date) {
     throw new ApiError(400, "Date is required");
   }
@@ -14,19 +13,21 @@ const updateCommonNumbers = asyncHandler(async (req, res) => {
     throw new ApiError(400, "At least one of FR or SR data is required");
   }
 
-  // 🕓 Normalize and validate date
-  const normalizedDate = new Date(date);
-  if (isNaN(normalizedDate)) {
+  const inputDate = new Date(date);
+  if (isNaN(inputDate)) {
     throw new ApiError(400, "Invalid date format");
   }
-  normalizedDate.setHours(0, 0, 0, 0);
 
-  // 📅 Extract day, month, year
-  const day = normalizedDate.getUTCDate();
-  const month = normalizedDate.getUTCMonth() + 1;
-  const year = normalizedDate.getUTCFullYear();
+  const normalizedDate = new Date(Date.UTC(
+    inputDate.getUTCFullYear(),
+    inputDate.getUTCMonth(),
+    inputDate.getUTCDate()
+  ));
 
-  // 🛠️ Build update object dynamically
+  const day = inputDate.getUTCDate();
+  const month = inputDate.getUTCMonth() + 1;
+  const year = inputDate.getUTCFullYear();
+
   const updateFields = {};
 
   if (FR) {
@@ -49,7 +50,6 @@ const updateCommonNumbers = asyncHandler(async (req, res) => {
     updateFields["common.SR.time"] = "17:20";
   }
 
-  // 🔄 Update or create document
   const updatedCommon = await commonNumber.findOneAndUpdate(
     { date: normalizedDate },
     {
@@ -63,7 +63,6 @@ const updateCommonNumbers = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to update common numbers");
   }
 
-  // ✅ Respond
   return res.status(201).json(
     new ApiResponse(
       201,
@@ -79,23 +78,26 @@ const updateCommonNumbers = asyncHandler(async (req, res) => {
   );
 });
 
+
 const getTodayCommonNumbers = asyncHandler(async (req, res) => {
-  // 🕒 Get current date in UTC (normalized)
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+ 
+  const now = new Date();
+  const utcDate = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate()
+  ));
 
-  const day = today.getUTCDate();
-  const month = today.getUTCMonth() + 1;
-  const year = today.getUTCFullYear();
+  const day = utcDate.getUTCDate();
+  const month = utcDate.getUTCMonth() + 1;
+  const year = utcDate.getUTCFullYear();
 
-  // 🔍 Find today’s record
   const commonData = await commonNumber.findOne({ day, month, year }).lean();
 
   if (!commonData) {
     throw new ApiError(404, "No common numbers found for today");
   }
 
-  // ✅ Respond with essential data
   return res.status(200).json(
     new ApiResponse(
       200,
@@ -109,5 +111,6 @@ const getTodayCommonNumbers = asyncHandler(async (req, res) => {
     )
   );
 });
+
 
 export { updateCommonNumbers, getTodayCommonNumbers };
