@@ -11,6 +11,8 @@ import Analytics from './pages/Analytics.jsx'
 import PreviousResult from './pages/PreviousResult.jsx'
 import ReputedCounter from './pages/ReputedCounter.jsx'
 import TeerCalendar from './pages/TeerCalendar.jsx'
+import Privacy from './pages/Privacy.jsx'
+import Terms from './pages/Terms.jsx'
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,14 @@ const router = createBrowserRouter([
         path : "/targetgame",
         element : <Targetgame />
       },
+      {
+        path:"/privacy",
+        element:<Privacy/>
+      },
+      {
+       path:"/terms",
+        element:<Terms/> 
+      }
     ]
   }
 ])

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Link } from "react-router-dom";
 
 const IconCard = ({ imgSrc }) => (
@@ -15,37 +15,31 @@ const IconCard = ({ imgSrc }) => (
 );
 
 export default function Home() {
-  const navDate = '26-10-2025';
+ 
   const results = {
-    fr: { time: '4:20PM', value: '33' },
-    sr: { time: '5:20PM', value: '88' },
+    fr: { time: "4:20PM", value: "33" },
+    sr: { time: "5:20PM", value: "88" },
   };
 
   // 🖼️ Update with your final grid image filenames in /public
   const gridItems = [
-    { imgSrc: '/commonNumber.png', to: '/common-numbers' },
-    { imgSrc: '/socialNumber.png' },
-    { imgSrc: '/dreamNumber.png', to: '/dream-numbers' },
-    { imgSrc: '/analysis.png', to: '/analytics' },
-    { imgSrc: '/targetGame.png', to: '/targetgame' },
-    { imgSrc: '/previousResults.png', to: '/previous-results' },
-    { imgSrc: '/teerCalendar.png', to: '/teer-calendar' },
-    { imgSrc: '/reputedCountries.png', to: '/reputedcounter' },
-    { imgSrc: '/onlineShopping.png', },
+    { imgSrc: "/commonNumber.jpeg", to: "/common-numbers" },
+    { imgSrc: "/socialNumber.jpeg" },
+    { imgSrc: "/dreamNumber.jpeg", to: "/dream-numbers" },
+    { imgSrc: "/analysis.jpeg", to: "/analytics" },
+    { imgSrc: "/targetGame.jpeg", to: "/targetgame" },
+    { imgSrc: "/previousResults.jpeg", to: "/previous-results" },
+    { imgSrc: "/teerCalendar.jpeg", to: "/teer-calendar" },
+    { imgSrc: "/reputedCountries.jpeg", to: "/reputedcounter" },
+    { imgSrc: "/onlineShopping.jpeg" },
   ];
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
-      <header className="bg-gray-800 text-white p-2 fixed top-0 left-0 right-0 z-50">
-        <div className="container mx-auto flex justify-between items-center text-sm px-4">
-          <span>TheRoyalBhutan.com</span>
-          <span>{navDate}</span>
-        </div>
-      </header>
 
-      <div className="h-10"></div>
+      
 
-      <div className="bg-gray-200 p-3 shadow-md mt-10">
+      <div className="bg-gray-200 p-3 shadow-md mt-4">
         <h1 className="text-center text-3xl font-bold text-gray-800">
           The Royal Bhutan | Teer Results
         </h1>
@@ -85,16 +79,6 @@ export default function Home() {
           ))}
         </div>
       </main>
-
-
-
-      <footer className="bg-gray-200 p-4 mt-8">
-        <div className="container mx-auto text-right px-4">
-          <a href="#" className="text-gray-700 hover:text-blue-600">
-            Privacy Policy
-          </a>
-        </div>
-      </footer>
     </div>
   );
 }

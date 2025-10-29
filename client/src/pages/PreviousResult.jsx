@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import TableComponent from '../components/TableComponent';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import { Link } from "react-router-dom";
 import { allData } from '../constants/constant.js';
 
 
@@ -22,6 +21,14 @@ const NavItem = ({ title, bgColor, children }) => (
 );
 
 function PreviousResult() {
+  const quickLinks = [
+    { imgSrc: "/socialNumber.jpeg", to: "" },
+    { imgSrc: "/onlineShopping.jpeg", to: "/dream-numbers" },
+    { imgSrc: "/commonNumber.jpeg", to: "/common-numbers" },
+    { imgSrc: "/targetGame.jpeg", to: "/targetgame" },
+    { imgSrc: "/reputedCountries.jpeg", to: "/reputedcounter" },
+    { imgSrc: "/teerCalendar.jpeg", to: "/teer-calendar" },
+  ];
   const [selectedMonth, setSelectedMonth] = useState('August');
   const [selectedYear, setSelectedYear] = useState('2025');
 
@@ -40,7 +47,7 @@ function PreviousResult() {
   return (
     <div className="min-h-screen flex flex-col font-sans bg-gray-100">
 
-      <Navbar />
+ 
 
       <main className="flex-grow container mx-auto p-4 md:p-6">
 
@@ -96,7 +103,22 @@ function PreviousResult() {
 
       {/* <BottomNav/> */}
 
-      <Footer />
+<div className="grid grid-cols-3 sm:grid-cols-6 gap-[4px] justify-items-center px-1 py-3">
+        {quickLinks.map((item, index) => (
+          <Link
+            key={index}
+            to={item.to}
+            className="flex items-center justify-center w-28 h-28 sm:w-32 sm:h-32 overflow-hidden border border-gray-800 dark:border-gray-200 bg-white dark:bg-gray-900 hover:scale-[1.04] transition-transform duration-200"
+          >
+            <img
+              src={item.imgSrc}
+              alt={`link-${index}`}
+              className="w-full h-full object-cover"
+            />
+          </Link>
+        ))}
+      </div>
+ 
 
     </div>
   );
