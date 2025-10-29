@@ -23,7 +23,7 @@ const NavItem = ({ title, bgColor, children }) => (
 function PreviousResult() {
   const quickLinks = [
     { imgSrc: "/socialNumber.jpeg", to: "" },
-    { imgSrc: "/onlineShopping.jpeg", to: "/dream-numbers" },
+    { imgSrc: "/onlineShopping.jpeg", to: "" },
     { imgSrc: "/commonNumber.jpeg", to: "/common-numbers" },
     { imgSrc: "/targetGame.jpeg", to: "/targetgame" },
     { imgSrc: "/reputedCountries.jpeg", to: "/reputedcounter" },

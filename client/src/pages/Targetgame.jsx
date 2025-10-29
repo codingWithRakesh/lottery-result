@@ -40,7 +40,7 @@ function NavButtons() {
 export default function Targetgame() {
   const quickLinks = [
     { imgSrc: "/socialNumber.jpeg", to: "" },
-    { imgSrc: "/onlineShopping.jpeg", to: "/dream-numbers" },
+    { imgSrc: "/onlineShopping.jpeg", to: "" },
     { imgSrc: "/commonNumber.jpeg", to: "" },
     { imgSrc: "/targetGame.jpeg", to: "/targetgame" },
     { imgSrc: "/previousResults.jpeg", to: "/previous-results" },
