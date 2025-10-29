@@ -10,6 +10,7 @@ import DreamNumbers from './pages/DreamNumbers.jsx'
 import Analytics from './pages/Analytics.jsx'
 import PreviousResult from './pages/PreviousResult.jsx'
 import ReputedCounter from './pages/ReputedCounter.jsx'
+import TeerCalendar from './pages/TeerCalendar.jsx'
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path : "/reputedcounter",
         element : <ReputedCounter />
+      },
+      {
+        path : "/teer-calendar",
+        element : <TeerCalendar />
       },
       {
         path : "/targetgame",
