@@ -116,8 +116,6 @@ const updateSRresult = asyncHandler(async (req, res) => {
     );
 });
 
-
-
 const getTodaysResult = asyncHandler(async (req, res) => {
 
   const today = new Date();
@@ -173,7 +171,46 @@ const getMonthlyResults = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, results, "Monthly results fetched successfully"));
 });
 
+const getLastThreeMonthsResults = asyncHandler(async (req, res) => {
+  const today = new Date();
+  const currentMonth = today.getUTCMonth() + 1; // 1–12
+  const currentYear = today.getUTCFullYear();
+
+  const months = [];
+  for (let i = 0; i < 3; i++) {
+    let month = currentMonth - i;
+    let year = currentYear;
+
+    if (month <= 0) {
+      month += 12; 
+      year -= 1;
+    }
+
+    months.push({ month, year });
+  }
+
+  const query = {
+    $or: months.map(({ month, year }) => ({ month, year })),
+  };
+
+  const results = await Result.find(
+    query,
+    { day: 1, month: 1, year: 1, results: 1, _id: 0 }
+  )
+    .sort({ year: 1, month: 1, day: -1 })
+    .lean();
+
+  if (!results || results.length === 0) {
+    throw new ApiError(404, "No results found for the last 3 months");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, results, "Results of the last 3 months fetched successfully")
+  );
+});
 
 
 
-export {updateFRresult,updateSRresult,getTodaysResult,getMonthlyResults}
+
+
+export {updateFRresult,updateSRresult,getTodaysResult,getMonthlyResults,getLastThreeMonthsResults}
