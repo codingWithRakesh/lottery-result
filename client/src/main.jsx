@@ -13,6 +13,9 @@ import ReputedCounter from './pages/ReputedCounter.jsx'
 import TeerCalendar from './pages/TeerCalendar.jsx'
 import Privacy from './pages/Privacy.jsx'
 import Terms from './pages/Terms.jsx'
+import Login from './admin/pages/Login.jsx'
+import Admin from './admin/pages/Admin.jsx'
+import ChangePassword from './admin/pages/ChangePass.jsx'
 
 const router = createBrowserRouter([
   {
@@ -58,7 +61,19 @@ const router = createBrowserRouter([
       {
        path:"/terms",
         element:<Terms/> 
-      }
+      },
+      {
+        path : "/private/admin/login",
+        element : <Login />
+      },
+      {
+        path : "/private/admin",
+        element : <Admin />
+      },
+      {
+        path : "/private/admin/change-password",
+        element : <ChangePassword />
+      },
     ]
   }
 ])
