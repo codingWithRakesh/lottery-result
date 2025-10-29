@@ -1,14 +1,3 @@
-import React from 'react';
-import { 
-  Target, 
-  Users, 
-  CloudDrizzle, 
-  Gift, 
-  Home, 
-  ListChecks,
-  ShieldCheck,
-  MapPin
-} from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 

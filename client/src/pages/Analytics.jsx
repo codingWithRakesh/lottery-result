@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import IconGrid from '../components/IconGrid';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 

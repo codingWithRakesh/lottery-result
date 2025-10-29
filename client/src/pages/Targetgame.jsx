@@ -1,6 +1,3 @@
-import React, { useState } from 'react';
-import { Home, Target, Users, Brain, Gift, Copyright, Menu, X } from 'lucide-react';
-import IconGrid from '../components/IconGrid';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
