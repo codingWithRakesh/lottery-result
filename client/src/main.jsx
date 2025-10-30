@@ -69,25 +69,25 @@ const router = createBrowserRouter([
       {
         path: "/private/admin/login",
         element: (
-          //<ProtectRoute>
+          <AuthenticatedUserRoute>
             <Login />
-          //</ProtectRoute>
+          </AuthenticatedUserRoute>
         )
       },
       {
         path: "/private/admin",
         element: (
-          //<AuthenticatedUserRoute>
+          <ProtectRoute>
             <Admin />
-          //</AuthenticatedUserRoute>
+          </ProtectRoute>
         )
       },
       {
         path: "/private/admin/change-password",
         element: (
-          //<ProtectRoute>
+          <ProtectRoute>
             <ChangePassword />
-          //</ProtectRoute>
+          </ProtectRoute>
         )
       },
     ]

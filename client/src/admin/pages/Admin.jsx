@@ -7,9 +7,10 @@ import adminStore from '../store/adminStore.js';
 const Admin = () => {
   const { currentUser } = adminStore();
 
-  // useEffect(() => {
-  //   currentUser();
-  // }, [])
+  useEffect(() => {
+    currentUser();
+  }, [])
+  console.log("currentUser called from Admin.jsx");
   
   return (
     <div className="w-full min-h-screen bg-gray-100 font-inter">

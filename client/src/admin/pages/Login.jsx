@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
     const { currentUser } = adminStore();
 
-  // useEffect(() => {
-  //   currentUser();
-  // }, [])
+  useEffect(() => {
+    currentUser();
+  }, [])
   const [authMode, setAuthMode] = useState('login');
 
   return (

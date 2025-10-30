@@ -33,7 +33,8 @@ const adminStore = create((set) => ({
                 withCredentials: true
             });
             if (response.data.success) {
-                set({ user: response.data.user, isAuthenticated: true, message: response.data.message });
+                set({ user: response.data.data.user, isAuthenticated: true, message: response.data.message });
+                console.log('Login successful:', response.data.data.user);
             } else {
                 set({ message: response.data.message });
             }
@@ -44,20 +45,33 @@ const adminStore = create((set) => ({
             set({ isLoading: false });
         }
     },
-    currentUser : async () => {
+    currentUser: async () => {
         set({ isLoading: true, error: null, message: null });
         try {
             const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/api/v1/admin/currentuser`, {
                 withCredentials: true
             });
             if (response.data.success) {
-                set({ user: response.data.user, isAuthenticated: true, message: response.data.message });
+                // Fix this line - make it consistent with login method
+                set({
+                    user: response.data.data.user || response.data.data,
+                    isAuthenticated: true,
+                    message: response.data.message
+                });
+                console.log('Current user fetched:', response.data.data.user || response.data.data);
             } else {
-                set({ user: null, isAuthenticated: false, message: response.data.message });
+                set({
+                    user: null,
+                    isAuthenticated: false,
+                    message: response.data.message
+                });
             }
-
         } catch (error) {
-            set({ error: error.message });
+            set({
+                user: null,
+                isAuthenticated: false,
+                error: error.message
+            });
         } finally {
             set({ isLoading: false });
         }
@@ -80,7 +94,7 @@ const adminStore = create((set) => ({
             set({ isLoading: false });
         }
     },
-    refresh : async () => {
+    refresh: async () => {
         set({ isLoading: true, error: null, message: null });
         try {
             const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/api/v1/admin/refresh`, {
@@ -98,7 +112,7 @@ const adminStore = create((set) => ({
             set({ isLoading: false });
         }
     },
-    changePassword : async (passwordData) => {
+    changePassword: async (passwordData) => {
         set({ isLoading: true, error: null, message: null });
         try {
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/api/v1/admin/changepassword`, passwordData, {
