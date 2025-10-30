@@ -53,7 +53,7 @@ const [Result, setResult] = useState([])
 
       <div className="bg-gray-200 p-3 shadow-md mt-4">
         <h1 className="text-center text-3xl font-bold text-gray-800">
-          The Real Bhutan | Teer Results
+          Real Bhutan | Teer Results
         </h1>
       </div>
 

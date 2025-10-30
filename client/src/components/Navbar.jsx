@@ -6,7 +6,7 @@ const Navbar = ({ isShow = false, isCounter = false }) => {
         <header className="bg-white shadow-sm w-full">
             <div className="container mx-auto px-4 py-3">
                 <div className="flex justify-between items-center mb-2">
-                    <h1 className="text-2xl font-bold text-blue-700">TeerBhutan.com</h1>
+                    <h1 className="text-2xl font-bold text-blue-700">RealBhutan.com</h1>
                     <button className="md:hidden p-2 rounded-md hover:bg-gray-100">
                         <Menu size={24} className="text-gray-700" />
                     </button>

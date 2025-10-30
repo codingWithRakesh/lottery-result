@@ -17,10 +17,17 @@ const App = () => {
         <div className="container mx-auto flex justify-between items-center text-sm px-4">
           <Link
             to="/"
-            className="hover:text-blue-400 transition-colors duration-200 font-semibold"
+            className="flex items-center gap-2 hover:text-blue-400 transition-colors duration-200 font-semibold"
           >
+            {/* ✅ Logo image */}
+            <img
+              src="/logo.png"
+              alt="Real Bhutan Logo"
+              className="w-10 h-10 object-contain"
+            />
             RealBhutan.in
           </Link>
+
           <span>{navDate}</span>
         </div>
       </header>
@@ -32,7 +39,7 @@ const App = () => {
         </Suspense>
       </main>
 
-      <footer className="bg-gray-200 p-4 mt-8">
+      <footer className="bg-gray-200 p-4 ">
         <div className="container mx-auto flex justify-between items-center px-4 text-sm">
           <Link
             to="/terms"
