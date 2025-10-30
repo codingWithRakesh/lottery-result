@@ -59,7 +59,6 @@ const updateFRresult = asyncHandler(async (req, res) => {
     );
 });
 
-
 const updateSRresult = asyncHandler(async (req, res) => {
   const { date, city, result } = req.body;
 
@@ -197,7 +196,7 @@ const getLastThreeMonthsResults = asyncHandler(async (req, res) => {
     query,
     { day: 1, month: 1, year: 1, results: 1, _id: 0 }
   )
-    .sort({ year: 1, month: 1, day: -1 })
+    .sort({ year: -1, month: -1, day: -1 })
     .lean();
 
   if (!results || results.length === 0) {

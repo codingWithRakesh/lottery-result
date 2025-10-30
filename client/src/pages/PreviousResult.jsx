@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableComponent from "../components/TableComponent";
 import { Link } from "react-router-dom";
 
 const months = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 const years = ["2025", "2024", "2023", "2022", "2021"];
 
@@ -14,9 +24,47 @@ function PreviousResult() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const getLastThreeMonthsResult = async () => {
+      setData([]);
+
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_SERVER_URI}/api/v1/result/past-three-months`
+        );
+
+        if (!response.ok) throw new Error("Failed to fetch monthly result");
+
+        const result = await response.json();
+        console.log("Fetched Data:", result.data);
+
+        const formattedData = result.data.map((item) => {
+          const FR = item.results.find((r) => r.timeslot === "FR");
+          const SR = item.results.find((r) => r.timeslot === "SR");
+          const date = `${item.day} ${months[item.month - 1]} ${item.year}`;
+
+          return {
+            city: "BHUTAN",
+            date,
+            fr: FR ? FR.number : "-",
+            sr: SR ? SR.number : "-",
+          };
+        });
+
+        setData(formattedData);
+      } catch (err) {
+        console.error("Error fetching monthly results:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getLastThreeMonthsResult()
+  }, []);
+
   const getMonthlyResult = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setData([]);
 
     try {
       const monthNumber = months.indexOf(selectedMonth) + 1;
@@ -137,10 +185,7 @@ function PreviousResult() {
         </div>
 
         {/* ===== TABLE ===== */}
-        <TableComponent
-          header={["CITY", "DATE", "F/R", "S/R"]}
-          body={data}
-        />
+        <TableComponent header={["CITY", "DATE", "F/R", "S/R"]} body={data} />
       </main>
 
       {/* ===== QUICK LINKS ===== */}
