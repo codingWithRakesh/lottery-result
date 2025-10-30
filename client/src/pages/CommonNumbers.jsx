@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 const ResultsTable = ({ title, direct, house, ending }) => {
   return (
@@ -31,6 +32,30 @@ const ResultsTable = ({ title, direct, house, ending }) => {
 };
 
 export default function CommonNumbers() {
+  const [Result, setResult] = useState({});
+  useEffect(() => {
+    const fetchResult = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_SERVER_URI}/api/v1/common/get-common-numbers`
+        );
+        if (!response.ok) throw new Error("Failed to fetch today's result");
+
+        const result = await response.json();
+        setResult(result.data.common);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchResult();
+  }, []);
+
+  useEffect(() => {
+    console.log(Result);
+  }, [Result]);
+
+
   const quickLinks = [
     { imgSrc: "/socialNumber.jpeg", to: "" },
     { imgSrc: "/dreamNumber.jpeg", to: "/dream-numbers" },
@@ -43,8 +68,8 @@ export default function CommonNumbers() {
     <div className="min-h-screen bg-white font-sans">
       <main className="container mx-auto max-w-6xl px-4 py-4">
         <div className="space-y-4">
-          <ResultsTable title="BHUTAN" direct="18,59" house="7" ending="0" />
-          <ResultsTable title="BHUTAN" direct="43" house="6" ending="3" />
+          {Result.FR ? (<ResultsTable title="BHUTAN (F/R)" direct={Result.FR.Direct} house={Result.FR.House} ending={Result.FR.Ending} />): (<div>The common Number has not yet been decided</div>) }
+          {Result.SR ? (<ResultsTable title="BHUTAN (S/R)" direct={Result.SR.Direct} house={Result.SR.House} ending={Result.SR.Ending} />): (<div>The common Number has not yet been decided</div>) }
         </div>
 
         <p className="text-xs text-center text-gray-700 my-4">

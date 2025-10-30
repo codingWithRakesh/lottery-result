@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const IconCard = ({ imgSrc }) => (
@@ -15,6 +15,30 @@ const IconCard = ({ imgSrc }) => (
 );
 
 export default function Home() {
+const [Result, setResult] = useState([])
+  useEffect(() => {
+        const fetchResult = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/api/v1/result/todays-result`);
+        if (!response.ok) throw new Error("Failed to fetch today's result");
+
+        const result = await response.json();
+        setResult(result.data.results)
+      } catch (err) {
+        console.log(err);
+        
+      }
+    };
+
+    fetchResult();
+
+  }, [])
+
+  useEffect(() => {
+    console.log(Result);
+  }, [Result])
+  
+  
  
   const results = {
     fr: { time: "4:20PM", value: "33" },
@@ -48,15 +72,15 @@ export default function Home() {
       <div className="bg-green-600 text-white p-3 shadow-lg">
         <div className="container mx-auto flex justify-around items-center text-lg font-semibold">
           <div className="text-center">
-            <span>F/R ({results.fr.time}): </span>
+            <span>F/R ({Result[0]?.time}): </span>
             <span className="bg-white text-green-700 px-3 py-1 rounded-md">
-              {results.fr.value}
+              {Result[0]?.number}
             </span>
           </div>
           <div className="text-center">
-            <span>S/R ({results.sr.time}): </span>
+            <span>S/R ({Result[1]?.time}): </span>
             <span className="bg-white text-green-700 px-3 py-1 rounded-md">
-              {results.sr.value}
+              {Result[1]?.number}
             </span>
           </div>
         </div>

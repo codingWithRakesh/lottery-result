@@ -23,7 +23,7 @@ const Navbar = ({ isShow = false, isCounter = false }) => {
                             <ShieldCheck className="w-6 h-6 text-blue-600" />
                             <div>
                                 <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">License No.</h3>
-                                <p className="text-lg font-bold text-gray-800">1096</p>
+                                <p className="text-lg font-bold text-gray-800">1097</p>
                             </div>
                         </div>
                         <div className="flex items-center space-x-3">
