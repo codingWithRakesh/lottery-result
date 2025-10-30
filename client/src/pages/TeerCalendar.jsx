@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CalendarTable = () => {
   const [calendarData, setCalendarData] = useState([]);
- 
+
 
   useEffect(() => {
     const generateCalendarData = () => {
@@ -99,7 +99,7 @@ const CalendarTable = () => {
 };
 
 export default function TeerCalendar() {
-     const quickLinks = [
+  const quickLinks = [
     { imgSrc: "/socialNumber.jpeg", to: "" },
     { imgSrc: "/onlineShopping.jpeg", to: "" },
     { imgSrc: "/commonNumber.jpeg", to: "/common-numbers" },
@@ -107,6 +107,14 @@ export default function TeerCalendar() {
     { imgSrc: "/reputedCountries.jpeg", to: "/reputedcounter" },
     { imgSrc: "/teerCalendar.jpeg", to: "/teer-calendar" },
   ];
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }, []);
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-inter">
       <main className="flex-grow">

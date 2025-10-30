@@ -53,7 +53,7 @@ const adminStore = create((set) => ({
             if (response.data.success) {
                 set({ user: response.data.user, isAuthenticated: true, message: response.data.message });
             } else {
-                set({ message: response.data.message });
+                set({ user: null, isAuthenticated: false, message: response.data.message });
             }
 
         } catch (error) {

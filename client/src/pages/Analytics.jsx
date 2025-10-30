@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function NavButtons() {
@@ -25,9 +26,8 @@ function NavButtons() {
           <a
             key={link.title}
             href="#"
-            className={`p-3 rounded-lg text-center font-semibold transition-colors duration-300 ${
-              link.bg
-            } ${link.hover} ${link.text || "text-gray-800"}`}
+            className={`p-3 rounded-lg text-center font-semibold transition-colors duration-300 ${link.bg
+              } ${link.hover} ${link.text || "text-gray-800"}`}
           >
             {link.title}
           </a>
@@ -46,6 +46,14 @@ export default function Analytics() {
     { imgSrc: "/previousResults.jpeg", to: "/previous-results" },
     { imgSrc: "/teerCalendar.jpeg", to: "/teer-calendar" },
   ];
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }, []);
   return (
     <div className="min bg-gray-50 font-sans flex flex-col">
       <main className="grow container mx-auto px-4 py-6 w-full max-w-4xl">

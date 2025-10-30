@@ -1,11 +1,12 @@
 import TableComponent from '../components/TableComponent';
 import { Link } from "react-router-dom";
 import { dreamData } from '../constants/constant.js';
+import { useEffect } from 'react';
 
 
 
 export default function DreamNumbers() {
-    const quickLinks = [
+  const quickLinks = [
     { imgSrc: "/socialNumber.jpeg", to: "" },
     { imgSrc: "/onlineShopping.jpeg", to: "" },
     { imgSrc: "/commonNumber.jpeg", to: "/common-numbers" },
@@ -13,13 +14,21 @@ export default function DreamNumbers() {
     { imgSrc: "/previousResults.jpeg", to: "/previous-results" },
     { imgSrc: "/teerCalendar.jpeg", to: "/teer-calendar" },
   ];
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }, []);
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
- 
-      
+
+
       <main className="container mx-auto px-4">
         <TableComponent header={["DREAM", "DIRECT", "HOUSE", "ENDING"]} body={dreamData} />
-         {/* <BottomNav/> */}
+        {/* <BottomNav/> */}
       </main>
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-[4px] justify-items-center px-1 py-3">
         {quickLinks.map((item, index) => (
@@ -36,7 +45,7 @@ export default function DreamNumbers() {
           </Link>
         ))}
       </div>
- 
+
     </div>
   );
 }

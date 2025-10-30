@@ -117,6 +117,15 @@ function PreviousResult() {
     { imgSrc: "/teerCalendar.jpeg", to: "/teer-calendar" },
   ];
 
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col font-sans bg-gray-100">
       <main className="flex-grow container mx-auto p-4 md:p-6">

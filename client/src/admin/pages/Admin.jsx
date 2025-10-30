@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Card from '../components/Card'
 import CardBhutan from '../components/CardBhutan';
+import adminStore from '../store/adminStore.js';
 
 const Admin = () => {
+  const { currentUser } = adminStore();
+
+  // useEffect(() => {
+  //   currentUser();
+  // }, [])
+  
   return (
     <div className="w-full min-h-screen bg-gray-100 font-inter">
       <Navbar />

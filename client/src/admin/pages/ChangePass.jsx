@@ -49,7 +49,7 @@ export default function ChangePassword() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 font-sans p-4">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
-        <button onClick={() => window.history.back()} className="absolute top-12 left-4 cursor-pointer bg-gray-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2">
+        <button onClick={() => window.history.back()} className="absolute top-20 left-8 cursor-pointer bg-gray-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2">
         Back
       </button>
         <h1 className="text-3xl font-bold text-center text-gray-900">

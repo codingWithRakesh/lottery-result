@@ -4,6 +4,11 @@ import adminStore from "../store/adminStore.js"
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    const { currentUser } = adminStore();
+
+  // useEffect(() => {
+  //   currentUser();
+  // }, [])
   const [authMode, setAuthMode] = useState('login');
 
   return (
@@ -103,9 +108,8 @@ function AuthCard({ authMode, setAuthMode }) {
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold mb-2">Revox Quiz</h1>
-        <p className="text-gray-600">Test your knowledge and compete with others</p>
+      <div className="text-center mb-10">
+        <h1 className="text-3xl font-bold mb-2">RealBhutan</h1>
       </div>
 
       <div className="flex gap-2 mb-6">

@@ -55,6 +55,15 @@ export default function CommonNumbers() {
     // console.log(Result);
   }, [Result]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }, []);
+
 
   const quickLinks = [
     { imgSrc: "/socialNumber.jpeg", to: "" },
@@ -68,8 +77,8 @@ export default function CommonNumbers() {
     <div className="min-h-screen bg-white font-sans">
       <main className="container mx-auto max-w-6xl px-4 py-4">
         <div className="space-y-4">
-          {Result.FR ? (<ResultsTable title="BHUTAN (F/R)" direct={Result.FR.Direct} house={Result.FR.House} ending={Result.FR.Ending} />): (<div>The common Number has not yet been decided</div>) }
-          {Result.SR ? (<ResultsTable title="BHUTAN (S/R)" direct={Result.SR.Direct} house={Result.SR.House} ending={Result.SR.Ending} />): (<div>The common Number has not yet been decided</div>) }
+          {Result.FR ? (<ResultsTable title="BHUTAN (F/R)" direct={Result.FR.Direct} house={Result.FR.House} ending={Result.FR.Ending} />) : (<div>The common Number has not yet been decided</div>)}
+          {Result.SR ? (<ResultsTable title="BHUTAN (S/R)" direct={Result.SR.Direct} house={Result.SR.House} ending={Result.SR.Ending} />) : (<div>The common Number has not yet been decided</div>)}
         </div>
 
         <p className="text-xs text-center text-gray-700 my-4">

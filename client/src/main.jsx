@@ -16,63 +16,79 @@ import Terms from './pages/Terms.jsx'
 import Login from './admin/pages/Login.jsx'
 import Admin from './admin/pages/Admin.jsx'
 import ChangePassword from './admin/pages/ChangePass.jsx'
+import {
+  ProtectRoute,
+  AuthenticatedUserRoute
+} from "./utils/userAuthenticated.jsx"
 
 const router = createBrowserRouter([
   {
-    path : "/",
-    element : <App />,
-    children : [
+    path: "/",
+    element: <App />,
+    children: [
       {
-        path : "/",
-        element : <Home />
+        path: "/",
+        element: <Home />
       },
       {
-        path : "/common-numbers",
-        element : <CommonNumbers />
+        path: "/common-numbers",
+        element: <CommonNumbers />
       },
       {
-        path : "/dream-numbers",
-        element : <DreamNumbers />
+        path: "/dream-numbers",
+        element: <DreamNumbers />
       },
       {
-        path : "/analytics",
-        element : <Analytics />
+        path: "/analytics",
+        element: <Analytics />
       },
       {
-        path : "/previous-results",
-        element : <PreviousResult />
+        path: "/previous-results",
+        element: <PreviousResult />
       },
       {
-        path : "/reputedcounter",
-        element : <ReputedCounter />
+        path: "/reputedcounter",
+        element: <ReputedCounter />
       },
       {
-        path : "/teer-calendar",
-        element : <TeerCalendar />
+        path: "/teer-calendar",
+        element: <TeerCalendar />
       },
       {
-        path : "/targetgame",
-        element : <Targetgame />
+        path: "/targetgame",
+        element: <Targetgame />
       },
       {
-        path:"/privacy",
-        element:<Privacy/>
+        path: "/privacy",
+        element: <Privacy />
       },
       {
-       path:"/terms",
-        element:<Terms/> 
+        path: "/terms",
+        element: <Terms />
       },
       {
-        path : "/private/admin/login",
-        element : <Login />
+        path: "/private/admin/login",
+        element: (
+          //<ProtectRoute>
+            <Login />
+          //</ProtectRoute>
+        )
       },
       {
-        path : "/private/admin",
-        element : <Admin />
+        path: "/private/admin",
+        element: (
+          //<AuthenticatedUserRoute>
+            <Admin />
+          //</AuthenticatedUserRoute>
+        )
       },
       {
-        path : "/private/admin/change-password",
-        element : <ChangePassword />
+        path: "/private/admin/change-password",
+        element: (
+          //<ProtectRoute>
+            <ChangePassword />
+          //</ProtectRoute>
+        )
       },
     ]
   }

@@ -15,9 +15,9 @@ const IconCard = ({ imgSrc }) => (
 );
 
 export default function Home() {
-const [Result, setResult] = useState([])
+  const [Result, setResult] = useState([])
   useEffect(() => {
-        const fetchResult = async () => {
+    const fetchResult = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/api/v1/result/todays-result`);
         if (!response.ok) throw new Error("Failed to fetch today's result");
@@ -26,14 +26,14 @@ const [Result, setResult] = useState([])
         setResult(result.data.results)
       } catch (err) {
         throw new Error(err)
-    
+
       }
     };
 
     fetchResult();
 
   }, [])
-  
+
   const gridItems = [
     { imgSrc: "/commonNumber.jpeg", to: "/common-numbers" },
     { imgSrc: "/socialNumber.jpeg" },
@@ -46,10 +46,19 @@ const [Result, setResult] = useState([])
     { imgSrc: "/onlineShopping.jpeg" },
   ];
 
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
 
-      
+
 
       <div className="bg-gray-200 p-3 shadow-md mt-4">
         <h1 className="text-center text-3xl font-bold text-gray-800">
