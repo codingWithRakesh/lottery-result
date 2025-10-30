@@ -8,7 +8,7 @@ const resultStore = create((set) => ({
     updateFR: async (data) => {
         set({ isLoading: true, error: null, message: null });
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/result/update-fr`, data, {
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/api/v1/result/update-fr`, data, {
                 withCredentials: true
             });
             if (response.data.success) {
@@ -25,7 +25,7 @@ const resultStore = create((set) => ({
     updateSR: async (data) => {
         set({ isLoading: true, error: null, message: null });
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/result/update-sr`, data, {
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/api/v1/result/update-sr`, data, {
                 withCredentials: true
             });
             if (response.data.success) {

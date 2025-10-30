@@ -8,7 +8,7 @@ const commonStore = create((set) => ({
     update : async (data) => {
         set({ isLoading: true, error: null, message: null });
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/common/update`, data, {
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/api/v1/common/update`, data, {
                 withCredentials: true
             });
             if (response.data.success) {

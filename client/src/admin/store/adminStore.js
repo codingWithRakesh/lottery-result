@@ -10,7 +10,7 @@ const adminStore = create((set) => ({
     register: async (userData) => {
         set({ isLoading: true, error: null, message: null });
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/admin/register`, userData, {
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/api/v1/admin/register`, userData, {
                 withCredentials: true
             });
             if (response.data.success) {
@@ -29,7 +29,7 @@ const adminStore = create((set) => ({
     login: async (credentials) => {
         set({ isLoading: true, error: null, message: null });
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/admin/login`, credentials, {
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/api/v1/admin/login`, credentials, {
                 withCredentials: true
             });
             if (response.data.success) {
@@ -47,7 +47,7 @@ const adminStore = create((set) => ({
     currentUser : async () => {
         set({ isLoading: true, error: null, message: null });
         try {
-            const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/admin/currentuser`, {
+            const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/api/v1/admin/currentuser`, {
                 withCredentials: true
             });
             if (response.data.success) {
@@ -65,7 +65,7 @@ const adminStore = create((set) => ({
     logout: async () => {
         set({ isLoading: true, error: null, message: null });
         try {
-            const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/admin/logout`, {
+            const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/api/v1/admin/logout`, {
                 withCredentials: true
             });
             if (response.data.success) {
@@ -83,7 +83,7 @@ const adminStore = create((set) => ({
     refresh : async () => {
         set({ isLoading: true, error: null, message: null });
         try {
-            const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/admin/refresh`, {
+            const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/api/v1/admin/refresh`, {
                 withCredentials: true
             });
             if (response.data.success) {
@@ -101,7 +101,7 @@ const adminStore = create((set) => ({
     changePassword : async (passwordData) => {
         set({ isLoading: true, error: null, message: null });
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/admin/changepassword`, passwordData, {
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/api/v1/admin/changepassword`, passwordData, {
                 withCredentials: true
             });
             if (response.data.success) {
