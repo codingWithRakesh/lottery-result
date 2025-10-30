@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronsRight, Home, LogIn, UserPlus, UserCheck } from 'lucide-react';
+import adminStore from "../store/adminStore.js"
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [authMode, setAuthMode] = useState('login');
@@ -13,65 +15,86 @@ export default function Login() {
   );
 }
 
-/**
- * Authentication Card Component
- * This component renders the main card for both Login and Register forms.
- * It conditionally displays fields based on the `authMode`.
- * @param {object} props - Component props
- * @param {string} props.authMode - The current authentication mode ('login' or 'register')
- * @param {function} props.setAuthMode - Function to update the auth mode
- */
 function AuthCard({ authMode, setAuthMode }) {
   const isLogin = authMode === 'login';
 
-  // State for form inputs
-  const [username, setUsername] = useState('');
+  const {
+    login,
+    register,
+    isLoading,
+    error,
+    message,
+    isAuthenticated
+  } = adminStore();
+  const navigate = useNavigate();
+
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Clear form state when switching between login and register
   useEffect(() => {
-    setUsername('');
+    setFullName('');
     setEmail('');
     setPassword('');
     setIsAdmin(false);
   }, [authMode]);
 
-  /**
-   * Handles form submission for both login and register
-   */
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log('User authenticated successfully!');
+      navigate('/private/admin');
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (message) {
+      console.log('Message:', message);
+      alert(message);
+
+      if (!isLogin && message.includes('success') || message.toLowerCase().includes('registered')) {
+        setAuthMode('login');
+      }
+    }
+
+    if (error) {
+      console.error('Error:', error);
+      alert(`Error: ${error}`);
+    }
+  }, [message, error]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+
+    if (!email || !password) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    if (!isLogin && !fullName) {
+      alert('Please fill in all required fields');
+      return;
+    }
 
     if (isLogin) {
-      // --- LOGIN API CALL ---
-      // This is where you would make your login API call
       console.log('Logging in with:', { email, password });
-      // Example: api.login(email, password);
+      await login({ email, password });
     } else {
-      // --- REGISTER API CALL ---
-      // This is where you would make your register API call
-      console.log('Registering with:', { username, email, password, isAdmin });
-      // Example: api.register(username, email, password, isAdmin);
+      console.log('Registering with:', { fullname: fullName, email, password, isAdmin });
+      await register({ email, fullname: fullName, password });
     }
   };
 
-  /**
-   * AuthToggleButton
-   * A helper component for the Login/Register toggle buttons inside the card.
-   */
   const AuthToggleButton = ({ mode, children }) => {
     const isActive = authMode === mode;
     return (
       <button
         type="button"
         onClick={() => setAuthMode(mode)}
-        className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-md transition-all ${
-          isActive
+        className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-md transition-all ${isActive
             ? 'bg-gray-900 text-white shadow-md'
             : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-100'
-        }`}
+          }`}
       >
         {children}
       </button>
@@ -80,13 +103,11 @@ function AuthCard({ authMode, setAuthMode }) {
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-      {/* Card Header */}
       <div className="text-center mb-6">
         <h1 className="text-3xl font-bold mb-2">Revox Quiz</h1>
         <p className="text-gray-600">Test your knowledge and compete with others</p>
       </div>
 
-      {/* Toggle Buttons */}
       <div className="flex gap-2 mb-6">
         <AuthToggleButton mode="login">
           <LogIn className="w-4 h-4" />
@@ -98,29 +119,27 @@ function AuthCard({ authMode, setAuthMode }) {
         </AuthToggleButton>
       </div>
 
-      {/* Form Area */}
       <form className="space-y-4" onSubmit={handleSubmit}>
-        {/* Conditional Fields for Register */}
         {!isLogin && (
           <div>
             <label
-              htmlFor="username"
+              htmlFor="fullName"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Username
+              FullName
             </label>
             <input
               type="text"
-              id="username"
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="fullName"
+              placeholder="Enter your full name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+              required={!isLogin}
             />
           </div>
         )}
 
-        {/* Common Fields */}
         <div>
           <label
             htmlFor="email"
@@ -135,9 +154,10 @@ function AuthCard({ authMode, setAuthMode }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+            required
           />
         </div>
-        
+
         <div>
           <label
             htmlFor="password"
@@ -152,10 +172,10 @@ function AuthCard({ authMode, setAuthMode }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+            required
           />
         </div>
 
-        {/* Conditional Checkbox for Register */}
         {!isLogin && (
           <div className="flex items-center">
             <input
@@ -171,13 +191,20 @@ function AuthCard({ authMode, setAuthMode }) {
           </div>
         )}
 
-        {/* Submit Button */}
+        {isLoading && (
+          <div className="text-center text-blue-600">
+            Processing...
+          </div>
+        )}
+
         <div className="pt-2">
           <button
             type="submit"
-            className="w-full bg-gray-900 text-white py-3 rounded-md hover:bg-gray-700 transition-colors font-semibold"
+            disabled={isLoading}
+            className={`w-full bg-gray-900 text-white py-3 rounded-md transition-colors font-semibold ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-700'
+              }`}
           >
-            {isLogin ? 'Login' : 'Register'}
+            {isLoading ? 'Processing...' : (isLogin ? 'Login' : 'Register')}
           </button>
         </div>
       </form>

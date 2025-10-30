@@ -1,30 +1,122 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import commonStore from "../store/commonStore.js";
 
-function CardBhutan({ title, onsubmit }) {
+function CardBhutan({ title }) {
   const [alldata, setAlldata] = useState({
     direct: '',
     house: '',
     ending: ''
   });
+  
+  const [localMessage, setLocalMessage] = useState('');
+  const [localError, setLocalError] = useState('');
+  const [localLoading, setLocalLoading] = useState(false);
+  const [lastActionId, setLastActionId] = useState(null);
 
-  const handleSubmit = (event) => {
+  const { update, isLoading, error, message } = commonStore();
+
+  const isFR = title.toLowerCase().includes('f/r') || title.toLowerCase().includes('fr');
+  const cardId = isFR ? 'fr-card' : 'sr-card';
+
+  const generateActionId = () => {
+    return `${cardId}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  };
+
+  useEffect(() => {
+    if (message && !localLoading) {
+      const isRelevantMessage = lastActionId && message.includes(lastActionId);
+      
+      if (isRelevantMessage) {
+        setLocalMessage(message.replace(`-${lastActionId}`, ''));
+        const timer = setTimeout(() => {
+          setLocalMessage('');
+        }, 3000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [message, localLoading, lastActionId]);
+
+  useEffect(() => {
+    if (error && !localLoading) {
+      const isRelevantError = lastActionId && error.includes(lastActionId);
+      
+      if (isRelevantError) {
+        setLocalError(error.replace(`-${lastActionId}`, ''));
+        const timer = setTimeout(() => {
+          setLocalError('');
+        }, 5000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [error, localLoading, lastActionId]);
+
+  useEffect(() => {
+    setLocalLoading(isLoading);
+  }, [isLoading]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Form submitted with:');
-    console.log('Data:', alldata);
+    
+    if (!alldata.direct.trim() || !alldata.house.trim() || !alldata.ending.trim()) {
+      setLocalError('Please fill in all fields');
+      return;
+    }
+
+    setLocalMessage('');
+    setLocalError('');
+    setLocalLoading(true);
+
+    const actionId = generateActionId();
+    setLastActionId(actionId);
+
+    const data = {
+      date: new Date().toISOString(),
+      actionId: actionId
+    };
+
+    if (isFR) {
+      data.FR = {
+        Direct: alldata.direct.toString(),
+        House: alldata.house.toString(),
+        Ending: alldata.ending.toString()
+      };
+    } else {
+      data.SR = {
+        Direct: alldata.direct.toString(),
+        House: alldata.house.toString(),
+        Ending: alldata.ending.toString()
+      };
+    }
+
+    console.log(`Submitting ${isFR ? 'FR' : 'SR'} with data:`, data);
+
+    try {
+      await update(data);
+      
+      if (!error) {
+        setAlldata({
+          direct: '',
+          house: '',
+          ending: ''
+        });
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+    } finally {
+      setLocalLoading(false);
+    }
   };
 
   return (
     <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-xl">
       
-      {/* Header Section */}
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-800">
             {title}
         </h1>
       </div>
 
-      <form className="mt-6 space-y-6" onSubmit={onsubmit || handleSubmit}>
-        {/* Result Input */}
+      <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
           <label htmlFor={`direct-${title}`} className="text-sm font-medium text-gray-700">
             Direct
@@ -35,9 +127,10 @@ function CardBhutan({ title, onsubmit }) {
             type="text"
             required
             className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 transition-shadow duration-200"
-            placeholder="Enter the result"
+            placeholder="Enter direct number"
             value={alldata.direct}
             onChange={(e) => setAlldata({ ...alldata, direct: e.target.value })}
+            disabled={localLoading}
           />
         </div>
 
@@ -51,9 +144,10 @@ function CardBhutan({ title, onsubmit }) {
             type="text"
             required
             className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 transition-shadow duration-200"
-            placeholder="Enter the result"
+            placeholder="Enter house number"
             value={alldata.house}
             onChange={(e) => setAlldata({ ...alldata, house: e.target.value })}
+            disabled={localLoading}
           />
         </div>
 
@@ -67,18 +161,44 @@ function CardBhutan({ title, onsubmit }) {
             type="text"
             required
             className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 transition-shadow duration-200"
-            placeholder="Enter the result"
+            placeholder="Enter ending number"
             value={alldata.ending}
             onChange={(e) => setAlldata({ ...alldata, ending: e.target.value })}
+            disabled={localLoading}
           />
         </div>
+
+        {localLoading && (
+          <div className="p-3 bg-blue-100 border border-blue-300 rounded-lg">
+            <p className="text-sm text-blue-700 text-center">
+              Submitting {isFR ? 'First' : 'Second'} Result...
+            </p>
+          </div>
+        )}
+
+        {localError && (
+          <div className="p-3 bg-red-100 border border-red-300 rounded-lg">
+            <p className="text-sm text-red-700 text-center">{localError}</p>
+          </div>
+        )}
+
+        {localMessage && (
+          <div className="p-3 bg-green-100 border border-green-300 rounded-lg">
+            <p className="text-sm text-green-700 text-center">{localMessage}</p>
+          </div>
+        )}
 
         <div>
           <button
             type="submit"
-            className="w-full cursor-pointer px-4 py-3 font-semibold text-white bg-gray-900 rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 focus:ring-opacity-50 transition-colors duration-200"
+            disabled={localLoading}
+            className={`w-full px-4 py-3 font-semibold text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 focus:ring-opacity-50 transition-colors duration-200 ${
+              localLoading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-gray-900 hover:bg-gray-800 cursor-pointer'
+            }`}
           >
-            Submit
+            {localLoading ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </form>
