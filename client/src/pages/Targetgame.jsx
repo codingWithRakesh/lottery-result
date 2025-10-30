@@ -41,7 +41,7 @@ export default function Targetgame() {
   const quickLinks = [
     { imgSrc: "/socialNumber.jpeg", to: "" },
     { imgSrc: "/onlineShopping.jpeg", to: "" },
-    { imgSrc: "/commonNumber.jpeg", to: "" },
+    { imgSrc: "/commonNumber.jpeg", to: "/common-numbers" },
     { imgSrc: "/targetGame.jpeg", to: "/targetgame" },
     { imgSrc: "/previousResults.jpeg", to: "/previous-results" },
     { imgSrc: "/teerCalendar.jpeg", to: "/teer-calendar" },
