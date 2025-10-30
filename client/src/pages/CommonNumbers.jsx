@@ -52,7 +52,7 @@ export default function CommonNumbers() {
   }, []);
 
   useEffect(() => {
-    console.log(Result);
+    // console.log(Result);
   }, [Result]);
 
 

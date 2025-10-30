@@ -25,27 +25,15 @@ const [Result, setResult] = useState([])
         const result = await response.json();
         setResult(result.data.results)
       } catch (err) {
-        console.log(err);
-        
+        throw new Error(err)
+    
       }
     };
 
     fetchResult();
 
   }, [])
-
-  useEffect(() => {
-    console.log(Result);
-  }, [Result])
   
-  
- 
-  const results = {
-    fr: { time: "4:20PM", value: "33" },
-    sr: { time: "5:20PM", value: "88" },
-  };
-
-  // 🖼️ Update with your final grid image filenames in /public
   const gridItems = [
     { imgSrc: "/commonNumber.jpeg", to: "/common-numbers" },
     { imgSrc: "/socialNumber.jpeg" },

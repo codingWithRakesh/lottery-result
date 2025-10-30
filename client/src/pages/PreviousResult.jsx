@@ -36,7 +36,7 @@ function PreviousResult() {
         if (!response.ok) throw new Error("Failed to fetch monthly result");
 
         const result = await response.json();
-        console.log("Fetched Data:", result.data);
+        // console.log("Fetched Data:", result.data);
 
         const formattedData = result.data.map((item) => {
           const FR = item.results.find((r) => r.timeslot === "FR");
@@ -86,9 +86,7 @@ function PreviousResult() {
       if (!response.ok) throw new Error("Failed to fetch monthly result");
 
       const result = await response.json();
-      console.log("Fetched Data:", result.data);
-
-      // ✅ Transform backend data into table format
+      // console.log("Fetched Data:", result.data);
       const formattedData = result.data.map((item) => {
         const FR = item.results.find((r) => r.timeslot === "FR");
         const SR = item.results.find((r) => r.timeslot === "SR");
