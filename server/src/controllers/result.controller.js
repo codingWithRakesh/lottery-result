@@ -6,6 +6,7 @@ import { Result } from "../models/result.models.js";
 const updateFRresult = asyncHandler(async (req, res) => {
   const { date, city, result } = req.body;
 
+  // 🧩 Validate fields
   const fields = { date, city, result };
   Object.entries(fields).forEach(([key, value]) => {
     if (!value) {
@@ -13,23 +14,24 @@ const updateFRresult = asyncHandler(async (req, res) => {
     }
   });
 
+  // 🕒 Parse date and normalize to IST midnight
   const inputDate = new Date(date);
   if (isNaN(inputDate)) {
     throw new ApiError(400, "Invalid date format");
   }
 
-  const normalizedDate = new Date(Date.UTC(
-    inputDate.getUTCFullYear(),
-    inputDate.getUTCMonth(),
-    inputDate.getUTCDate()
-  ));
+  // Convert to IST (UTC + 5:30)
+  const IST_OFFSET = 5.5 * 60 * 60 * 1000; // 5h 30m in ms
+  const normalizedDate = new Date(inputDate.getTime() + IST_OFFSET);
+  normalizedDate.setHours(0, 0, 0, 0);
 
-  const day = inputDate.getUTCDate();
-  const month = inputDate.getUTCMonth() + 1;
-  const year = inputDate.getUTCFullYear();
+  const day = normalizedDate.getDate();
+  const month = normalizedDate.getMonth() + 1;
+  const year = normalizedDate.getFullYear();
 
-  let createdFRresult = await Result.findOneAndUpdate(
-    { date: normalizedDate, "results.timeslot": "FR" },
+  // 🔍 Update FR result if exists, otherwise insert
+  let updatedFRresult = await Result.findOneAndUpdate(
+    { day, month, year, "results.timeslot": "FR" },
     {
       $set: {
         "results.$.number": result.number,
@@ -39,11 +41,11 @@ const updateFRresult = asyncHandler(async (req, res) => {
     { new: true }
   );
 
-  if (!createdFRresult) {
-    createdFRresult = await Result.findOneAndUpdate(
-      { date: normalizedDate },
+  if (!updatedFRresult) {
+    updatedFRresult = await Result.findOneAndUpdate(
+      { day, month, year },
       {
-        $setOnInsert: { day, month, year, city },
+        $setOnInsert: { date: normalizedDate, city, day, month, year },
         $push: {
           results: { timeslot: "FR", number: result.number, time: "16:20" },
         },
@@ -52,16 +54,18 @@ const updateFRresult = asyncHandler(async (req, res) => {
     );
   }
 
+  // ✅ Return response
   return res
     .status(201)
     .json(
-      new ApiResponse(201, createdFRresult, "FR result updated successfully")
+      new ApiResponse(201, updatedFRresult, "FR result updated successfully")
     );
 });
 
 const updateSRresult = asyncHandler(async (req, res) => {
   const { date, city, result } = req.body;
 
+  // 🧩 Validate required fields
   const fields = { date, city, result };
   Object.entries(fields).forEach(([key, value]) => {
     if (!value) {
@@ -69,23 +73,24 @@ const updateSRresult = asyncHandler(async (req, res) => {
     }
   });
 
+  // 🕒 Parse and normalize to IST midnight
   const inputDate = new Date(date);
   if (isNaN(inputDate)) {
     throw new ApiError(400, "Invalid date format");
   }
 
-  const normalizedDate = new Date(Date.UTC(
-    inputDate.getUTCFullYear(),
-    inputDate.getUTCMonth(),
-    inputDate.getUTCDate()
-  ));
+  // Convert to India Standard Time (IST)
+  const IST_OFFSET = 5.5 * 60 * 60 * 1000; // 5 hours 30 min in ms
+  const normalizedDate = new Date(inputDate.getTime() + IST_OFFSET);
+  normalizedDate.setHours(0, 0, 0, 0);
 
-  const day = inputDate.getUTCDate();
-  const month = inputDate.getUTCMonth() + 1;
-  const year = inputDate.getUTCFullYear();
+  const day = normalizedDate.getDate();
+  const month = normalizedDate.getMonth() + 1;
+  const year = normalizedDate.getFullYear();
 
+  // 🔍 Update SR result if exists, otherwise insert new
   let updatedSRresult = await Result.findOneAndUpdate(
-    { date: normalizedDate, "results.timeslot": "SR" },
+    { day, month, year, "results.timeslot": "SR" },
     {
       $set: {
         "results.$.number": result.number,
@@ -97,9 +102,9 @@ const updateSRresult = asyncHandler(async (req, res) => {
 
   if (!updatedSRresult) {
     updatedSRresult = await Result.findOneAndUpdate(
-      { date: normalizedDate },
+      { day, month, year },
       {
-        $setOnInsert: { day, month, year, city },
+        $setOnInsert: { date: normalizedDate, city, day, month, year },
         $push: {
           results: { timeslot: "SR", number: result.number, time: "17:20" },
         },
@@ -108,6 +113,7 @@ const updateSRresult = asyncHandler(async (req, res) => {
     );
   }
 
+  // ✅ Send response
   return res
     .status(201)
     .json(
