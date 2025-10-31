@@ -7,24 +7,21 @@ const router=Router()
 router.route("/update-fr").post(verifyJWT,updateFRresult)
 //on ("/api/v1/result/update-fr")
 // INPUT JSON:-    {
-//                 "city": "BHUTAN",
-//                "date": fetch by using Date.now(),
-//                "result": {
-//                "number": "in String"
-//                       }
-//                }
-
+//                  "date": "2025-11-01",
+//                  "city": "BHUTAN",
+//                  "result": { "number": "54" },
+//                  "time": "12:12AM"
+//              }
 
 
 router.route("/update-sr").post(verifyJWT,updateSRresult)
 //on ("/api/v1/result/update-sr")
 // INPUT JSON:-    {
-//                 "city": "BHUTAN",
-//                "date": fetch by using Date.now(),
-//                "result": {
-//                "number": "in String"
-//                       }
-//                }
+//                  "date": "2025-11-01",
+//                  "city": "BHUTAN",
+//                  "result": { "number": "54" },
+//                  "time": "12:12AM"
+//              }
 
 
 

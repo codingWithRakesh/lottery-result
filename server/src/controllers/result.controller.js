@@ -4,24 +4,21 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { Result } from "../models/result.models.js";
 
 const updateFRresult = asyncHandler(async (req, res) => {
-  const { date, city, result } = req.body;
+  const { date, city, result, time } = req.body;
 
-  // 🧩 Validate fields
+ 
   const fields = { date, city, result };
   Object.entries(fields).forEach(([key, value]) => {
     if (!value) {
       throw new ApiError(400, `${key} cannot be empty as it is required`);
     }
   });
-
-  // 🕒 Parse date and normalize to IST midnight
   const inputDate = new Date(date);
   if (isNaN(inputDate)) {
     throw new ApiError(400, "Invalid date format");
   }
 
-  // Convert to IST (UTC + 5:30)
-  const IST_OFFSET = 5.5 * 60 * 60 * 1000; // 5h 30m in ms
+  const IST_OFFSET = 5.5 * 60 * 60 * 1000;
   const normalizedDate = new Date(inputDate.getTime() + IST_OFFSET);
   normalizedDate.setHours(0, 0, 0, 0);
 
@@ -29,13 +26,40 @@ const updateFRresult = asyncHandler(async (req, res) => {
   const month = normalizedDate.getMonth() + 1;
   const year = normalizedDate.getFullYear();
 
-  // 🔍 Update FR result if exists, otherwise insert
+  function convertTo24Hour(timeStr) {
+    if (!timeStr) return "16:20";
+
+    const match = timeStr
+      .trim()
+      .match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+
+    if (!match) {
+      throw new ApiError(
+        400,
+        "Invalid time format. Use format like '4:20 PM' or '10:05 AM'."
+      );
+    }
+
+    let [, hours, minutes, period] = match;
+    hours = parseInt(hours);
+    minutes = parseInt(minutes);
+
+    if (period.toUpperCase() === "PM" && hours !== 12) hours += 12;
+    if (period.toUpperCase() === "AM" && hours === 12) hours = 0;
+
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}`;
+  }
+
+  const resultTime = convertTo24Hour(time || "4:20 PM");
+
   let updatedFRresult = await Result.findOneAndUpdate(
     { day, month, year, "results.timeslot": "FR" },
     {
       $set: {
         "results.$.number": result.number,
-        "results.$.time": "16:20",
+        "results.$.time": resultTime,
       },
     },
     { new: true }
@@ -47,14 +71,13 @@ const updateFRresult = asyncHandler(async (req, res) => {
       {
         $setOnInsert: { date: normalizedDate, city, day, month, year },
         $push: {
-          results: { timeslot: "FR", number: result.number, time: "16:20" },
+          results: { timeslot: "FR", number: result.number, time: resultTime },
         },
       },
       { upsert: true, new: true }
     );
   }
 
-  // ✅ Return response
   return res
     .status(201)
     .json(
@@ -63,9 +86,8 @@ const updateFRresult = asyncHandler(async (req, res) => {
 });
 
 const updateSRresult = asyncHandler(async (req, res) => {
-  const { date, city, result } = req.body;
+  const { date, city, result, time } = req.body;
 
-  // 🧩 Validate required fields
   const fields = { date, city, result };
   Object.entries(fields).forEach(([key, value]) => {
     if (!value) {
@@ -73,14 +95,12 @@ const updateSRresult = asyncHandler(async (req, res) => {
     }
   });
 
-  // 🕒 Parse and normalize to IST midnight
   const inputDate = new Date(date);
   if (isNaN(inputDate)) {
     throw new ApiError(400, "Invalid date format");
   }
 
-  // Convert to India Standard Time (IST)
-  const IST_OFFSET = 5.5 * 60 * 60 * 1000; // 5 hours 30 min in ms
+  const IST_OFFSET = 5.5 * 60 * 60 * 1000; 
   const normalizedDate = new Date(inputDate.getTime() + IST_OFFSET);
   normalizedDate.setHours(0, 0, 0, 0);
 
@@ -88,13 +108,40 @@ const updateSRresult = asyncHandler(async (req, res) => {
   const month = normalizedDate.getMonth() + 1;
   const year = normalizedDate.getFullYear();
 
-  // 🔍 Update SR result if exists, otherwise insert new
+  function convertTo24Hour(timeStr) {
+    if (!timeStr) return "17:20"; 
+
+    const match = timeStr
+      .trim()
+      .match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+
+    if (!match) {
+      throw new ApiError(
+        400,
+        "Invalid time format. Use format like '5:20 PM' or '10:05 AM'."
+      );
+    }
+
+    let [, hours, minutes, period] = match;
+    hours = parseInt(hours);
+    minutes = parseInt(minutes);
+
+    if (period.toUpperCase() === "PM" && hours !== 12) hours += 12;
+    if (period.toUpperCase() === "AM" && hours === 12) hours = 0;
+
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}`;
+  }
+
+  const resultTime = convertTo24Hour(time || "5:20 PM");
+
   let updatedSRresult = await Result.findOneAndUpdate(
     { day, month, year, "results.timeslot": "SR" },
     {
       $set: {
         "results.$.number": result.number,
-        "results.$.time": "17:20",
+        "results.$.time": resultTime,
       },
     },
     { new: true }
@@ -106,14 +153,13 @@ const updateSRresult = asyncHandler(async (req, res) => {
       {
         $setOnInsert: { date: normalizedDate, city, day, month, year },
         $push: {
-          results: { timeslot: "SR", number: result.number, time: "17:20" },
+          results: { timeslot: "SR", number: result.number, time: resultTime },
         },
       },
       { upsert: true, new: true }
     );
   }
 
-  // ✅ Send response
   return res
     .status(201)
     .json(
@@ -122,53 +168,54 @@ const updateSRresult = asyncHandler(async (req, res) => {
 });
 
 const getTodaysResult = asyncHandler(async (req, res) => {
-  // Get current date and convert it to IST (India Standard Time)
+  
   const now = new Date();
-  const indiaTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+  const indiaTime = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  );
+
   const currentHour = indiaTime.getHours();
   const currentMinute = indiaTime.getMinutes();
-  // console.log(currentHour);
-  
 
   const day = indiaTime.getDate();
   const month = indiaTime.getMonth() + 1;
   const year = indiaTime.getFullYear();
 
-  // Find today's result
   const todayResult = await Result.findOne({ day, month, year });
 
   if (!todayResult) {
     throw new ApiError(404, "No result found for today's date");
   }
 
-  // Deep clone result so we can safely modify it
   const filteredResult = JSON.parse(JSON.stringify(todayResult));
-  // console.log(filteredResult);
-  
 
-  // Filter FR and SR based on current IST time
+  function isTimePassed(resultTime) {
+    const [resHour, resMinute] = resultTime.split(":").map(Number);
+    return (
+      currentHour > resHour || (currentHour === resHour && currentMinute >= resMinute)
+    );
+  }
+
   filteredResult.results = todayResult.results.filter((item) => {
-    if (item.timeslot === "FR") {
-      // Only include FR if time >= 16:20 (4:20 PM IST)
-      return currentHour > 16 || (currentHour === 16 && currentMinute >= 20);
-    }
-    if (item.timeslot === "SR") {
-      // Only include SR if time >= 17:20 (5:20 PM IST)
-      return currentHour > 17 || (currentHour === 17 && currentMinute >= 20);
-    }
-    return false;
+    if (!item.time) return false; 
+    return isTimePassed(item.time); 
   });
 
-  // Keep other fields same (no change to response structure)
-  return res.status(200).json(
-    new ApiResponse(200, filteredResult, "Today's result fetched successfully")
-  );
-});
+  if (filteredResult.results.length === 0) {
+    return res.status(200).json(
+      new ApiResponse(200, null, "Results not yet available for today")
+    );
+  }
 
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, filteredResult, "Today's result fetched successfully")
+    );
+});
 
 const getMonthlyResults = asyncHandler(async (req, res) => {
   const { month, year } = req.body;
-
 
   if (!month || !year) {
     throw new ApiError(400, "Month and year are required");
@@ -176,50 +223,97 @@ const getMonthlyResults = asyncHandler(async (req, res) => {
 
   const monthNum = Number(month);
   const yearNum = Number(year);
-
   if (isNaN(monthNum) || isNaN(yearNum)) {
     throw new ApiError(400, "Month and year must be valid numbers");
   }
 
-  
+  const now = new Date();
+  const indiaTime = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  );
+  const currentDay = indiaTime.getDate();
+  const currentMonth = indiaTime.getMonth() + 1;
+  const currentYear = indiaTime.getFullYear();
+  const currentHour = indiaTime.getHours();
+  const currentMinute = indiaTime.getMinutes();
+
+  function isTimePassed(resultTime) {
+    const [resHour, resMinute] = resultTime.split(":").map(Number);
+    return (
+      currentHour > resHour ||
+      (currentHour === resHour && currentMinute >= resMinute)
+    );
+  }
+
   const results = await Result.find(
     { month: monthNum, year: yearNum },
-    { day: 1, month: 1, year: 1, results: 1, _id: 0 } 
+    { day: 1, month: 1, year: 1, results: 1, _id: 0 }
   )
-    .sort({ day: 1 }) 
+    .sort({ day: -1 })
     .lean();
 
   if (!results || results.length === 0) {
     throw new ApiError(404, "No results found for the given month and year");
   }
 
+  const filteredResults = results.map((entry) => {
+    if (yearNum < currentYear || monthNum < currentMonth) return entry;
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, results, "Monthly results fetched successfully"));
+    if (yearNum === currentYear && monthNum === currentMonth) {
+
+      if (entry.day < currentDay) return entry;
+
+      if (entry.day === currentDay) {
+        const visibleResults = entry.results.filter((r) => {
+          if (!r.time) return false;
+          return isTimePassed(r.time);
+        });
+
+        return { ...entry, results: visibleResults };
+      }
+
+      return null;
+    }
+
+    return null;
+  }).filter(Boolean);
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      filteredResults,
+      "Monthly results fetched successfully"
+    )
+  );
 });
 
+
 const getLastThreeMonthsResults = asyncHandler(async (req, res) => {
-  const today = new Date();
-  const currentMonth = today.getUTCMonth() + 1; // 1–12
-  const currentYear = today.getUTCFullYear();
+
+  const now = new Date();
+  const indiaTime = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  );
+
+  const currentDay = indiaTime.getDate();
+  const currentMonth = indiaTime.getMonth() + 1;
+  const currentYear = indiaTime.getFullYear();
+  const currentHour = indiaTime.getHours();
+  const currentMinute = indiaTime.getMinutes();
+
 
   const months = [];
   for (let i = 0; i < 3; i++) {
     let month = currentMonth - i;
     let year = currentYear;
-
     if (month <= 0) {
-      month += 12; 
+      month += 12;
       year -= 1;
     }
-
     months.push({ month, year });
   }
 
-  const query = {
-    $or: months.map(({ month, year }) => ({ month, year })),
-  };
+  const query = { $or: months.map(({ month, year }) => ({ month, year })) };
 
   const results = await Result.find(
     query,
@@ -232,12 +326,47 @@ const getLastThreeMonthsResults = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No results found for the last 3 months");
   }
 
+  function isTimePassed(resultTime) {
+    const [resHour, resMinute] = resultTime.split(":").map(Number);
+    return (
+      currentHour > resHour ||
+      (currentHour === resHour && currentMinute >= resMinute)
+    );
+  }
+
+  const filteredResults = results
+    .map((entry) => {
+      const { day, month, year } = entry;
+
+      if (year < currentYear || month < currentMonth) return entry;
+
+      if (year === currentYear && month === currentMonth) {
+     
+        if (day < currentDay) return entry;
+
+        if (day === currentDay) {
+          const visibleResults = entry.results.filter((r) => {
+            if (!r.time) return false;
+            return isTimePassed(r.time);
+          });
+          return { ...entry, results: visibleResults };
+        }
+
+        return null;
+      }
+
+      return null;
+    })
+    .filter(Boolean);
+
   return res.status(200).json(
-    new ApiResponse(200, results, "Results of the last 3 months fetched successfully")
+    new ApiResponse(
+      200,
+      filteredResults,
+      "Results of the last 3 months fetched successfully"
+    )
   );
 });
-
-
 
 
 

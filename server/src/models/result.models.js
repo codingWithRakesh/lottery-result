@@ -2,33 +2,34 @@ import mongoose from "mongoose";
 
 const resultSchema = new mongoose.Schema(
   {
-    date: {     //this tells we can add only onedocumet for a bay but later we can update the numbers or results
+    date: {
       type: Date,
       required: true,
-      unique: true, 
-      index:true
+      unique: true,
+      index: true,
     },
-    city:{
-        type:String,
-        required:true
+    city: {
+      type: String,
+      required: true,
     },
     day: {
       type: Number,
       required: true,
-      index:true
+      index: true,
     },
     month: {
       type: Number,
       required: true,
-      index:true
+      index: true,
     },
     year: {
       type: Number,
       required: true,
-      index:true
+      index: true,
     },
     results: [
       {
+        _id: false, // 🚫 disables subdocument _id creation
         timeslot: {
           type: String,
           enum: {
@@ -38,11 +39,12 @@ const resultSchema = new mongoose.Schema(
           required: true,
         },
         number: String,
-        time: String,
+        time: String, // stored in 24-hour format like "16:20"
       },
     ],
   },
   { timestamps: true }
 );
+
 
 export const Result = mongoose.model("Result", resultSchema);
