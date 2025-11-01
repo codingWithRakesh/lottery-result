@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
+
 import express from "express"
 import cors from "cors"
 import helmet from "helmet";
@@ -8,6 +11,7 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN || "http://localhost:5173",
     credentials: true
 }))
+console.log("CORS_ORIGIN:", process.env.CORS_ORIGIN);
 app.use(helmet());
 app.use(express.json())
 app.use(express.urlencoded())
