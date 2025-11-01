@@ -89,27 +89,86 @@ export const allData = {
     { city: 'BHUTAN', date: '2025-08-12', fr: '82', sr: '91' },
   ],
   '2025-September': [
-    { city: 'BHUTAN', date: '2025-09-01', fr: '29', sr: '96' },
-    { city: 'BHUTAN', date: '2025-09-02', fr: '10', sr: '01' },
-    { city: 'BHUTAN', date: '2025-09-03', fr: '43', sr: '69' },
-    { city: 'BHUTAN', date: '2025-09-04', fr: '03', sr: '19' },
-    { city: 'BHUTAN', date: '2025-09-05', fr: '90', sr: '76' },
-    { city: 'BHUTAN', date: '2025-09-06', fr: '70', sr: '89' },
-    { city: 'BHUTAN', date: '2025-09-07', fr: '61', sr: '42' },
-    { city: 'BHUTAN', date: '2025-09-08', fr: '72', sr: '61' },
-    { city: 'BHUTAN', date: '2025-09-09', fr: '45', sr: '61' },
-    { city: 'BHUTAN', date: '2025-09-10', fr: '24', sr: '48' },
+    { city: 'BHUTAN', date: '1 September 2025', fr: '29', sr: '96' },
+    { city: 'BHUTAN', date: '2 September 2025', fr: '10', sr: '01' },
+    { city: 'BHUTAN', date: '3 September 2025', fr: '43', sr: '69' },
+    { city: 'BHUTAN', date: '4 September 2025', fr: '03', sr: '19' },
+    { city: 'BHUTAN', date: '5 September 2025', fr: '90', sr: '76' },
+    { city: 'BHUTAN', date: '6 September 2025', fr: '70', sr: '89' },
+    { city: 'BHUTAN', date: '7 September 2025', fr: '61', sr: '42' },
+    { city: 'BHUTAN', date: '8 September 2025', fr: '72', sr: '61' },
+    { city: 'BHUTAN', date: '9 September 2025', fr: '45', sr: '61' },
+    { city: 'BHUTAN', date: '10 September 2025', fr: '24', sr: '48' },
+    { city: 'BHUTAN', date: '11 September 2025', fr: '56', sr: '02' },
+    { city: 'BHUTAN', date: '12 September 2025', fr: '18', sr: '73' },
+    { city: 'BHUTAN', date: '13 September 2025', fr: '34', sr: '91' },
+    { city: 'BHUTAN', date: '14 September 2025', fr: '62', sr: '27' },
+    { city: 'BHUTAN', date: '15 September 2025', fr: '87', sr: '53' },
+    { city: 'BHUTAN', date: '16 September 2025', fr: '09', sr: '68' },
+    { city: 'BHUTAN', date: '17 September 2025', fr: '75', sr: '04' },
+    { city: 'BHUTAN', date: '18 September 2025', fr: '46', sr: '39' },
+    { city: 'BHUTAN', date: '19 September 2025', fr: '92', sr: '21' },
+    { city: 'BHUTAN', date: '20 September 2025', fr: '13', sr: '65' },
+    { city: 'BHUTAN', date: '21 September 2025', fr: '27', sr: '44' },
+    { city: 'BHUTAN', date: '22 September 2025', fr: '50', sr: '82' },
+    { city: 'BHUTAN', date: '23 September 2025', fr: '64', sr: '15' },
+    { city: 'BHUTAN', date: '24 September 2025', fr: '39', sr: '70' },
+    { city: 'BHUTAN', date: '25 September 2025', fr: '82', sr: '57' },
+    { city: 'BHUTAN', date: '26 September 2025', fr: '05', sr: '63' },
+    { city: 'BHUTAN', date: '27 September 2025', fr: '77', sr: '10' },
+    { city: 'BHUTAN', date: '28 September 2025', fr: '48', sr: '34' },
+    { city: 'BHUTAN', date: '29 September 2025', fr: '95', sr: '26' },
+    { city: 'BHUTAN', date: '30 September 2025', fr: '22', sr: '88' }
   ],
   '2025-October': [
-    { city: 'BHUTAN', date: '2025-10-01', fr: '82', sr: '51' },
-    { city: 'BHUTAN', date: '2025-10-02', fr: '17', sr: '07' },
-    { city: 'BHUTAN', date: '2025-10-03', fr: '33', sr: '85' },
-    { city: 'BHUTAN', date: '2025-10-04', fr: '54', sr: '01' },
-    { city: 'BHUTAN', date: '2025-10-05', fr: '17', sr: '33' },
-    { city: 'BHUTAN', date: '2025-10-06', fr: '82', sr: '51' },
-    { city: 'BHUTAN', date: '2025-10-07', fr: '17', sr: '07' },
-    { city: 'BHUTAN', date: '2025-10-08', fr: '33', sr: '85' },
-    { city: 'BHUTAN', date: '2025-10-09', fr: '54', sr: '01' },
-    { city: 'BHUTAN', date: '2025-10-10', fr: '17', sr: '33' },
-  ],
+    { city: 'BHUTAN', date: '1 October 2025', fr: '82', sr: '51' },
+    { city: 'BHUTAN', date: '2 October 2025', fr: '17', sr: '07' },
+    { city: 'BHUTAN', date: '3 October 2025', fr: '33', sr: '85' },
+    { city: 'BHUTAN', date: '4 October 2025', fr: '54', sr: '01' },
+    { city: 'BHUTAN', date: '5 October 2025', fr: '17', sr: '33' },
+    { city: 'BHUTAN', date: '6 October 2025', fr: '29', sr: '92' },
+    { city: 'BHUTAN', date: '7 October 2025', fr: '64', sr: '48' },
+    { city: 'BHUTAN', date: '8 October 2025', fr: '75', sr: '10' },
+    { city: 'BHUTAN', date: '9 October 2025', fr: '48', sr: '39' },
+    { city: 'BHUTAN', date: '10 October 2025', fr: '23', sr: '84' },
+    { city: 'BHUTAN', date: '11 October 2025', fr: '97', sr: '42' },
+    { city: 'BHUTAN', date: '12 October 2025', fr: '40', sr: '08' },
+    { city: 'BHUTAN', date: '13 October 2025', fr: '86', sr: '26' },
+    { city: 'BHUTAN', date: '14 October 2025', fr: '55', sr: '91' },
+    { city: 'BHUTAN', date: '15 October 2025', fr: '72', sr: '67' },
+    { city: 'BHUTAN', date: '16 October 2025', fr: '10', sr: '53' },
+    { city: 'BHUTAN', date: '17 October 2025', fr: '81', sr: '22' },
+    { city: 'BHUTAN', date: '18 October 2025', fr: '92', sr: '69' },
+    { city: 'BHUTAN', date: '19 October 2025', fr: '65', sr: '37' },
+    { city: 'BHUTAN', date: '20 October 2025', fr: '38', sr: '80' },
+    { city: 'BHUTAN', date: '21 October 2025', fr: '57', sr: '13' },
+    { city: 'BHUTAN', date: '22 October 2025', fr: '25', sr: '59' },
+    { city: 'BHUTAN', date: '23 October 2025', fr: '96', sr: '71' },
+    { city: 'BHUTAN', date: '24 October 2025', fr: '41', sr: '09' },
+    { city: 'BHUTAN', date: '25 October 2025', fr: '73', sr: '65' },
+    { city: 'BHUTAN', date: '26 October 2025', fr: '08', sr: '49' },
+    { city: 'BHUTAN', date: '27 October 2025', fr: '59', sr: '24' },
+    { city: 'BHUTAN', date: '28 October 2025', fr: '03', sr: '78' },
+    { city: 'BHUTAN', date: '29 October 2025', fr: '94', sr: '31' },
+    { city: 'BHUTAN', date: '30 October 2025', fr: '62', sr: '05' },
+    { city: 'BHUTAN', date: '31 October 2025', fr: '15', sr: '88' }
+  ]
+};
+
+
+export const formatTimeTo12Hour = (time24) => {
+  if (!time24) return "";
+
+  const [hours, minutes] = time24.split(':');
+  const hour = parseInt(hours, 10);
+  const minute = parseInt(minutes, 10);
+
+  const period = hour >= 12 ? 'PM' : 'AM';
+
+  let hour12 = hour % 12;
+  if (hour12 === 0) {
+    hour12 = 12;
+  }
+
+  return `${hour12}:${minute.toString().padStart(2, '0')} ${period}`;
 };

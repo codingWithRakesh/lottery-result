@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import TableComponent from "../components/TableComponent";
 import { Link } from "react-router-dom";
+import { allData } from "../constants/constant.js"
 
 const months = [
   "January",
@@ -23,6 +24,7 @@ function PreviousResult() {
   const [selectedYear, setSelectedYear] = useState("2025");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
 
   useEffect(() => {
     const getLastThreeMonthsResult = async () => {
@@ -99,7 +101,7 @@ function PreviousResult() {
           sr: SR ? SR.number : "-",
         };
       });
-
+      setIsSearch(true);
       setData(formattedData);
     } catch (err) {
       console.error("Error fetching monthly results:", err);
@@ -193,6 +195,8 @@ function PreviousResult() {
 
         {/* ===== TABLE ===== */}
         <TableComponent header={["CITY", "DATE", "F/R", "S/R"]} body={data} />
+        {!isSearch && <TableComponent header={["CITY", "DATE", "F/R", "S/R"]} body={allData["2025-October"]} />}
+        {!isSearch && <TableComponent header={["CITY", "DATE", "F/R", "S/R"]} body={allData["2025-September"]} />}
       </main>
 
       {/* ===== QUICK LINKS ===== */}

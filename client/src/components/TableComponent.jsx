@@ -27,13 +27,13 @@ const TableComponent = ({header, body}) => {
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-200">
               {item.dream || item.city}
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 border-r border-gray-200">
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-700 border-r border-gray-200">
               {item.direct || item.date}
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 border-r border-gray-200">
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-700 border-r border-gray-200">
               {item.house || item.fr}
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-700">
               {item.ending || item.sr}
             </td>
           </tr>

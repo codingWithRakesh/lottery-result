@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { formatTimeTo12Hour } from "../constants/constant.js"
 
 const IconCard = ({ imgSrc }) => (
   <a
@@ -69,13 +70,13 @@ export default function Home() {
       <div className="bg-green-600 text-white p-3 shadow-lg">
         <div className="container mx-auto flex justify-around items-center text-lg font-semibold">
           <div className="text-center">
-            <span>F/R ({Result[0]?.time}): </span>
+            <span>F/R ({formatTimeTo12Hour(Result[0]?.time)}): </span>
             <span className="bg-white text-green-700 px-3 py-1 rounded-md">
               {Result[0]?.number}
             </span>
           </div>
           <div className="text-center">
-            <span>S/R ({Result[1]?.time}): </span>
+            <span>S/R ({formatTimeTo12Hour(Result[1]?.time)}): </span>
             <span className="bg-white text-green-700 px-3 py-1 rounded-md">
               {Result[1]?.number}
             </span>

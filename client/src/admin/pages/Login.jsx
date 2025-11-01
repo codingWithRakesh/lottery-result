@@ -96,8 +96,8 @@ function AuthCard({ authMode, setAuthMode }) {
       <button
         type="button"
         onClick={() => setAuthMode(mode)}
-        className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-md transition-all ${isActive
-            ? 'bg-gray-900 text-white shadow-md'
+        className={`flex-1 flex text-4xl font-bold items-center justify-center gap-2 py-2 px-4 rounded-md transition-all ${isActive
+            ? ' text-gray-700'
             : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-100'
           }`}
       >
@@ -108,18 +108,14 @@ function AuthCard({ authMode, setAuthMode }) {
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-      <div className="text-center mb-10">
+      {/* <div className="text-center mb-10">
         <h1 className="text-3xl font-bold mb-2">RealBhutan</h1>
-      </div>
+      </div> */}
 
       <div className="flex gap-2 mb-6">
         <AuthToggleButton mode="login">
-          <LogIn className="w-4 h-4" />
+          {/* <LogIn className="w-4 h-4" /> */}
           <span>Login</span>
-        </AuthToggleButton>
-        <AuthToggleButton mode="register">
-          <UserPlus className="w-4 h-4" />
-          <span>Register</span>
         </AuthToggleButton>
       </div>
 
